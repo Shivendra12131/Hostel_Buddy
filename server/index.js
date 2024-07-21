@@ -1,10 +1,11 @@
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
+import 'dotenv/config';
+
 import connectToDB from './config/db.js';
 
-dotenv.config();
+// dotenv.config();
 
 const app = express();
 
