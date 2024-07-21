@@ -13,17 +13,19 @@ const productSchema = new Schema({
     }],
     borrower_id: { 
         type: Schema.Types.ObjectId, 
-        ref: 'User' 
+        ref: 'User',
+        default: null
     },
     title: { 
         type: String, 
-        required: true 
+        required: true
     },
     description: { 
-        type: String 
+        type: String,
+        default: ""
     },
     category_id: { 
-        type: Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId,
         required: true 
     }
   }, { timestamps: true });

@@ -1,10 +1,12 @@
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
+import 'dotenv/config'
 import connectToDB from './config/db.js';
+import multer from 'multer'
+import { uploadImage } from './utility/images.js';
 
-dotenv.config();
 
 const app = express();
 
@@ -18,17 +20,15 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.use(cookieParser());
 
 
 
+const storage = multer.memoryStorage()
+const upload = multer({storage: storage})
 
-
-app.get("/", async(req, res) => {
-    res.send("Hostel Buddy Web Application");
-})
 
 
 app.listen(PORT, () => {
