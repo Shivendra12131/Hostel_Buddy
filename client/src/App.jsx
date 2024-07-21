@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { Button } from "@material-tailwind/react";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -9,6 +10,8 @@ function App() {
   return (
     <>
       <div>
+      <Button>Button</Button>
+
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -21,6 +24,7 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
+        {/* <h1 className="text-3xl font-bold underline">hello</h1> */}
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
