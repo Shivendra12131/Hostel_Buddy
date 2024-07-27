@@ -22,10 +22,10 @@ const orderSchema = new Schema({
         enum: ['pending', 'approved', 'rejected', 'returned'], 
         default: 'pending' 
     },
-    transactions: { 
-        type: [String], 
-        default: [] 
-    },
+    transactions:[{ 
+        type: String, 
+        default: "" 
+    }],
     pickupOTP: { 
         type: String,
     },

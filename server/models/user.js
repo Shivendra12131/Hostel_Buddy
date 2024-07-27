@@ -31,6 +31,10 @@ const userSchema = new Schema({
     room: {
         type: String,
         required: true
+    },
+    profileImage: {
+        type: String,
+        default: null
     }
 }, { timestamps: true });
 
