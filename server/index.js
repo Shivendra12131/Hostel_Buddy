@@ -7,6 +7,10 @@ import connectToDB from './config/db.js';
 import multer from 'multer'
 import { uploadImage } from './utility/images.js';
 
+import productRoutes from './routes/product.js'
+import imageRoutes from './routes/images.js'
+import userRoutes from './routes/user.js'
+
 
 const app = express();
 
@@ -28,6 +32,11 @@ app.use(cookieParser());
 
 const storage = multer.memoryStorage()
 const upload = multer({storage: storage})
+
+
+app.use('/api/v1/products', productRoutes);
+app.use('/api/v1/images/', imageRoutes)
+app.use('/api/v1/users', userRoutes)
 
 
 

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const productSchema = new Schema({
-    owner_id: { 
+    owner: { 
         type: Schema.Types.ObjectId, 
         ref: 'User', 
         required: true 
@@ -11,7 +11,7 @@ const productSchema = new Schema({
     images: [{
         type: String
     }],
-    borrower_id: { 
+    borrower: { 
         type: Schema.Types.ObjectId, 
         ref: 'User',
         default: null
@@ -24,7 +24,7 @@ const productSchema = new Schema({
         type: String,
         default: ""
     },
-    category_id: { 
+    category: { 
         type: Schema.Types.ObjectId,
         required: true 
     }
