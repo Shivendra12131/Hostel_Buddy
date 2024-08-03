@@ -1,8 +1,12 @@
 import { useState } from 'react'
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import StickyNavbar from './components/common/Navbar'
 import { FooterWithLogo } from './components/common/Footer'
 import { CarouselCustomNavigation } from './components/Carousel'
 import Products from './pages/Products'
+import ProductForm from './pages/productDesForm'
+import SignUpForm from './pages/signUpForm'
+import { Sidebar } from './pages/Sidebar'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -63,6 +67,15 @@ function App() {
       Delectus commodi deleniti natus nemo iure? Labore tenetur ratione vel quo, aut unde id alias illo quia commodi expedita perspiciatis officia odio corporis inventore voluptatem! Quae sit saepe odit tempore.</div> */}
       <Products />
       <FooterWithLogo />
+
+      <Router>
+            <div>
+              <Routes>
+                <Route path="/product-form" element={<ProductForm />} />
+                <Route path="/signup-form" element={<SignUpForm />} />
+              </Routes>
+            </div>
+          </Router>
     </>
   )
 }
