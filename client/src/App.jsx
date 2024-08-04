@@ -63,7 +63,7 @@ function App() {
       Delectus commodi deleniti natus nemo iure? Labore tenetur ratione vel quo, aut unde id alias illo quia commodi expedita perspiciatis officia odio corporis inventore voluptatem! Quae sit saepe odit tempore.</div> */}
      
       <Products />
-      {/* <Sidebar /> */}
+      <Sidebar />
       <FooterWithLogo />
     </>
   )
