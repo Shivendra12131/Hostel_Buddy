@@ -15,7 +15,7 @@ import {
   
 } from "@heroicons/react/24/solid";
  
-export function Sidebar() {
+const Accounts = () => {
   const data = [
     {
         label: "Profile",
@@ -40,7 +40,7 @@ export function Sidebar() {
    
   ];
   return (
-    <Tabs value="dashboard">
+    <Tabs value="profile">
       <TabsHeader>
         {data.map(({ label, value, icon }) => (
           <Tab key={value} value={value}>
@@ -64,5 +64,4 @@ export function Sidebar() {
   );
 }
 
-
-
+export default Accounts;

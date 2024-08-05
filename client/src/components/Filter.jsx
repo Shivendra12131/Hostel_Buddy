@@ -14,26 +14,26 @@ const Filter = () => {
         { _id: '7', title: 'Laptop' },
         { _id: '8', title: 'Snacks' },
         { _id: '9', title: 'Electronics' },
-        { _id: '10', title: 'Fashion' },
-        { _id: '11', title: 'Home & Kitchen' },
+        // { _id: '10', title: 'Fashion' },
+        // { _id: '11', title: 'Home & Kitchen' },
         { _id: '12', title: 'Beauty & Personal Care' },
         { _id: '13', title: 'Books & Movies' },
         { _id: '14', title: 'Toys & Games' },
         { _id: '15', title: 'Sports & Outdoors' },
-        { _id: '16', title: 'Grocery & Gourmet Food' },
+        { _id: '16', title: 'Grocery' },
         { _id: '17', title: 'Health & Household' },
-        { _id: '18', title: 'Pet Supplies' },
-        { _id: '19', title: 'Automotive' },
-        { _id: '20', title: 'Baby' },
-        { _id: '21', title: 'Industrial & Scientific' },
+        // { _id: '18', title: 'Pet Supplies' },
+        // { _id: '19', title: 'Automotive' },
+        // { _id: '20', title: 'Baby' },
+        // { _id: '21', title: 'Industrial & Scientific' },
         { _id: '22', title: 'Office Products' },
         { _id: '23', title: 'Software' },
-        { _id: '24', title: 'Tools & Home Improvement' },
+        { _id: '24', title: 'Tools' },
         { _id: '25', title: 'Musical Instruments' },
-        { _id: '26', title: 'Arts, Crafts & Sewing' },
-        { _id: '27', title: 'Cell Phones & Accessories' },
-        { _id: '28', title: 'Computers' },
-        { _id: '29', title: 'Video Games' },
+        { _id: '26', title: 'Arts & Crafts' },
+        { _id: '27', title: 'Mobile Phones' },
+        // { _id: '28', title: 'Computers' },
+        // { _id: '29', title: 'Video Games' },
         { _id: '30', title: 'Furniture' }
     ]);
 
@@ -74,12 +74,12 @@ const Filter = () => {
     }
 
     return (
-        <Card className='w-[22vw] max-w-72 h-fit py-5 px-5'>
+        <Card className='w-[22vw] max-w-72 h-fit py-5 bg-[#350145] px-5'>
             <div className='flex flex-col mb-5'>
-                <h1 className='font-bold text-2xl text-black/85 mb-5'>Filter by categories</h1>
+                <h1 className='font-bold text-2xl text-white mb-5'>Filter by categories</h1>
                 <Input
                     type='text'
-                    className='' // Add spacing for better layout
+                    className='bg-white' // Add spacing for better layout
                     label='Search Categories'
                     value={searchTerm}
                     onChange={handleSearchChange}
@@ -91,8 +91,9 @@ const Filter = () => {
                             <Chip
                                 key={selected._id} // Add unique key for better performance with large lists
                                 variant="filled"
+                                color='pink'
                                 value={`${selected.title}`}
-                                className='capitalize text-sm font-light px-2 py-1 rounded-md'
+                                className='capitalize text-sm font-light text-white px-2 py-1 rounded-md'
                                 onClick={() => handleRemoveSelectedCategory(selected)}
                             />
                         ))}
@@ -104,7 +105,7 @@ const Filter = () => {
                                 unmount: { scale: 0, y: 25 },
                               }}
                         >
-                            <img src={deleteLeftIcon} className='h-6 my-auto' onClick={handleClearAllSelectedCategory}/>
+                            <img src={deleteLeftIcon} className='h-6 text my-auto' onClick={handleClearAllSelectedCategory}/>
                         </Tooltip>
                     </div>
                 )}
@@ -112,12 +113,12 @@ const Filter = () => {
 
             {selectedCategories.length > 0 && <hr />}
             {categories.length == 0 && (
-                <div className='flex flex-wrap gap-x-2 mt-5 gap-y-3 w-full animate-pulse'>
+                <div className='flex flex-wrap gap-x-2 mt-5 gap-y-3 w-full bg-white text-white animate-pulse'>
                     {[...Array(40)].map((val, key) => (<Chip
                         key={key} // Add unique key for better performance with large lists
                         variant='chip filled'
                         value=""
-                        className={`capitalize w-${randomWidths[Math.floor(Math.random() * randomWidths.length)]} h-7 text-sm font-light px-2 py-1 rounded-md bg-gray-300`}
+                        className={`capitalize w-${randomWidths[Math.floor(Math.random() * randomWidths.length)]} h-7 text-sm font-light px-2 py-1 rounded-md bg-white`}
                     />))}
                 </div>
             )}
@@ -127,7 +128,8 @@ const Filter = () => {
                         key={category._id} // Add unique key for better performance with large lists
                         variant={selectedCategories.some((selected) => selected._id === category._id) ? 'chip filled' : 'outlined'}
                         value={category.title}
-                        className='capitalize text-sm font-light px-2 py-1 rounded-md'
+                        color='pink'
+                        className='capitalize text-sm font-light px-2 py-1 rounded-md text-white'
                         onClick={() => handleCategoryClick(category)}
                     />
                 ))}

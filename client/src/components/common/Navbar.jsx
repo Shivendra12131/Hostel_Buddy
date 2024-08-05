@@ -37,7 +37,7 @@ export default function StickyNavbar() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
+        <a href="/accounts" className="flex items-center">
           Account
         </a>
       </Typography>
@@ -83,7 +83,7 @@ export default function StickyNavbar() {
               <Button
                 variant="gradient bg-purple-800"
                 size="sm"
-                className="hidden lg:inline-block bg-purple-800"
+                className="hidden lg:inline-block bg-[#350145]"
               >
                 <span>Sign in</span>
               </Button>
