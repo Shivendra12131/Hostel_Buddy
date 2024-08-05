@@ -9,7 +9,7 @@ import {
 	IconButton,
 	Chip,
 } from "@material-tailwind/react";
-import profileImg from '../assets/Arvind_2.jpg'
+import profileImg from '../assets/Arvind_2.JPG'
 
 const ProductCard = () => {
 	return (
