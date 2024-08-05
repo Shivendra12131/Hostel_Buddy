@@ -13,7 +13,7 @@ function App() {
 
   return (
     <>
-      <StickyNavbar />
+      <StickyNavbar />    
       {/* <CarouselCustomNavigation /> */}
       {/* <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga sint eius distinctio, quibusdam ducimus doloribus, repellendus excepturi illo quis, minus cumque itaque. Quibusdam numquam, a doloribus consequatur officiis tempore repudiandae!
       Eius, magnam sapiente officia minus pariatur debitis, odio quibusdam rem earum voluptatum veritatis odit aliquam asperiores ea repudiandae aliquid qui impedit? Deserunt laudantium eos aut. Illo excepturi ipsa inventore ab.
@@ -65,7 +65,9 @@ function App() {
       Eveniet maiores praesentium quia quis nostrum laboriosam ipsam possimus eius repellendus. Porro consequatur delectus placeat magni explicabo iure, facere fugit perspiciatis impedit tempore nesciunt voluptatibus quasi, deserunt enim corporis animi?
       Corrupti quod voluptas aliquam excepturi, voluptatibus cumque animi eius laudantium sit dolorem maxime dicta asperiores nesciunt sunt voluptatem et unde, inventore tempore dignissimos. Ab maxime ullam aliquam, accusantium eius ipsam.
       Delectus commodi deleniti natus nemo iure? Labore tenetur ratione vel quo, aut unde id alias illo quia commodi expedita perspiciatis officia odio corporis inventore voluptatem! Quae sit saepe odit tempore.</div> */}
+     
       <Products />
+      <Sidebar />
       <FooterWithLogo />
 
       <Router>
