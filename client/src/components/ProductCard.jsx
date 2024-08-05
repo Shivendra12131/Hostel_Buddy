@@ -58,7 +58,7 @@ const ProductCard = () => {
 				</div>
 			</CardBody>
 			<CardFooter className="pt-3">
-				<Button size="lg" fullWidth={true} className="bg-[#350145]">
+				<Button size="lg" fullWidth={true}>
 					Reserve
 				</Button>
 			</CardFooter>
