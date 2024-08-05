@@ -6,6 +6,7 @@ import 'dotenv/config'
 import connectToDB from './config/db.js';
 import multer from 'multer'
 import { uploadImage } from './utility/images.js';
+import categoryRoutes from './routes/category'; 
 
 import productRoutes from './routes/product.js'
 import imageRoutes from './routes/images.js'
@@ -34,10 +35,11 @@ const storage = multer.memoryStorage()
 const upload = multer({storage: storage})
 
 
+// Register category routes
+app.use('/api', categoryRoutes);
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/images/', imageRoutes)
 app.use('/api/v1/users', userRoutes)
-
 
 
 app.listen(PORT, () => {
