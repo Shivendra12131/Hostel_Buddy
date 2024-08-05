@@ -9,7 +9,7 @@ import {
 	IconButton,
 	Chip,
 } from "@material-tailwind/react";
-import profileImg from '../assets/profile.jpg'
+import profileImg from '../assets/Arvind_2.jpg'
 
 const ProductCard = () => {
 	return (
@@ -49,7 +49,7 @@ const ProductCard = () => {
 					<img src={profileImg} alt="" className="rounded-full h-full" />
 					<div className="h-full flex flex-col">
 					<Typography variant="h6" color="blue-gray" className="font-bold">
-						Shivendra 
+						Arvind
 					</Typography>
 					<Typography variant="h6" color="blue-gray" className="font-medium">
 						(Manimala)
@@ -58,7 +58,7 @@ const ProductCard = () => {
 				</div>
 			</CardBody>
 			<CardFooter className="pt-3">
-				<Button size="lg" fullWidth={true}>
+				<Button size="lg" fullWidth={true} className="bg-[#350145]">
 					Reserve
 				</Button>
 			</CardFooter>

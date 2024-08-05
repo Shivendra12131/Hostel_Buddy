@@ -74,12 +74,12 @@ const Filter = () => {
     }
 
     return (
-        <Card className='w-[22vw] max-w-72 h-fit py-5 px-5'>
+        <Card className='w-[22vw] max-w-72 h-fit py-5 bg-[#350145] px-5'>
             <div className='flex flex-col mb-5'>
-                <h1 className='font-bold text-2xl text-black/85 mb-5'>Filter by categories</h1>
+                <h1 className='font-bold text-2xl text-white mb-5'>Filter by categories</h1>
                 <Input
                     type='text'
-                    className='' // Add spacing for better layout
+                    className=' bg-white' // Add spacing for better layout
                     label='Search Categories'
                     value={searchTerm}
                     onChange={handleSearchChange}
@@ -91,8 +91,9 @@ const Filter = () => {
                             <Chip
                                 key={selected._id} // Add unique key for better performance with large lists
                                 variant="filled"
+                                color='pink'
                                 value={`${selected.title}`}
-                                className='capitalize text-sm font-light px-2 py-1 rounded-md'
+                                className='capitalize text-sm font-light px-2 py-1 text-white rounded-md'
                                 onClick={() => handleRemoveSelectedCategory(selected)}
                             />
                         ))}
@@ -112,12 +113,12 @@ const Filter = () => {
 
             {selectedCategories.length > 0 && <hr />}
             {categories.length == 0 && (
-                <div className='flex flex-wrap gap-x-2 mt-5 gap-y-3 w-full animate-pulse'>
+                <div className='flex flex-wrap gap-x-2 mt-5 gap-y-3 w-full bg-white text-white  animate-pulse'>
                     {[...Array(40)].map((val, key) => (<Chip
                         key={key} // Add unique key for better performance with large lists
                         variant='chip filled'
                         value=""
-                        className={`capitalize w-${randomWidths[Math.floor(Math.random() * randomWidths.length)]} h-7 text-sm font-light px-2 py-1 rounded-md bg-gray-300`}
+                        className={`capitalize w-${randomWidths[Math.floor(Math.random() * randomWidths.length)]} h-7 text-sm font-light px-2 py-1 rounded-md bg-white`}
                     />))}
                 </div>
             )}
@@ -127,7 +128,8 @@ const Filter = () => {
                         key={category._id} // Add unique key for better performance with large lists
                         variant={selectedCategories.some((selected) => selected._id === category._id) ? 'chip filled' : 'outlined'}
                         value={category.title}
-                        className='capitalize text-sm font-light px-2 py-1 rounded-md'
+                         color='pink'
+                        className='capitalize text-sm font-light px-2 py-1 rounded-md text-white'
                         onClick={() => handleCategoryClick(category)}
                     />
                 ))}
