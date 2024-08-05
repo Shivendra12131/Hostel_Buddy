@@ -1,19 +1,13 @@
-const express = require("express")
+import express from  "express"
 const router = express.Router()
 
-// Import the required controllers and middleware functions
-const{
+import {
     login,signup,checkUserExists 
-}=require("../controllers/user.js")
+} from "../controllers/user.js"
 
-const { auth } = require("../middleware/auth")
-
-// ********************************************************************************************************
-//                                      Authentication routes
-// ********************************************************************************************************
+import { auth } from "../middlewares/auth.js"
 
 
-// router for checking user already exist or not
 router.post("/checkUserExists",checkUserExists)
 
 // Route for user login
@@ -22,4 +16,5 @@ router.post("/login", login)
 // Route for user signup
 router.post("/signup", signup)
 
+export default router;
 

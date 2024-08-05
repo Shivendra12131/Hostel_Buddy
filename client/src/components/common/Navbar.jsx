@@ -81,9 +81,9 @@ export default function StickyNavbar() {
                 <span>Log In</span>
               </Button>
               <Button
-                variant="gradient"
+                variant="gradient bg-purple-800"
                 size="sm"
-                className="hidden lg:inline-block"
+                className="hidden lg:inline-block bg-purple-800"
               >
                 <span>Sign in</span>
               </Button>

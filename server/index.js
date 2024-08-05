@@ -8,6 +8,10 @@ import multer from 'multer'
 import { uploadImage } from './utility/images.js';
 import categoryRoutes from './routes/category'; 
 
+import productRoutes from './routes/product.js'
+import imageRoutes from './routes/images.js'
+import userRoutes from './routes/user.js'
+
 
 const app = express();
 
@@ -30,8 +34,13 @@ app.use(cookieParser());
 const storage = multer.memoryStorage()
 const upload = multer({storage: storage})
 
+
 // Register category routes
 app.use('/api', categoryRoutes);
+app.use('/api/v1/products', productRoutes);
+app.use('/api/v1/images/', imageRoutes)
+app.use('/api/v1/users', userRoutes)
+
 
 app.listen(PORT, () => {
     console.log(`Hostel Buddy server running on ${PORT}.`);
