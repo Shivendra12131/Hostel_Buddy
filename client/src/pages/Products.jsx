@@ -26,7 +26,7 @@ const Products = () => {
 					</div>
 					<div className="flex gap-5">
 
-						<button className='mt-6 w-60 px-10 py-3 bg-pink-400 text-white font-semibold rounded-lg shadow-md hover:bg-purple-400 focus:outline-none'>
+						<button className='mt-6 w-60 px-10 py-3 bg-pink-300 text-white font-semibold rounded-lg shadow-md hover:bg-purple-400 focus:outline-none'>
 							Lend Your Stuff
 						</button>
 						<button className='mt-6 w-60 px-10 py-3 bg-green-400 text-white font-semibold rounded-lg shadow-md hover:bg-purple-400 focus:outline-none'>
@@ -35,7 +35,7 @@ const Products = () => {
 					</div></div>
 			</div>
 
-			<div className='w-full flex gap-x-16 px-5 py-8 bg-gray-100'>
+			<div className='w-full flex gap-x-16 px-5 py-8 bg-purple-50'>
 				<Filter />
 				<ProductsContainer />
 			</div>
