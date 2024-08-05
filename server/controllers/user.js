@@ -1,26 +1,21 @@
-import User from '../models/user.js'; // Assuming your User model is defined in this path
+import User from '../models/user.js'; 
 import jwt from 'jsonwebtoken';
 
-// Controller function to check if user exists
-export const checkUserExists = async (email) => {
+export const checkUserExists = async (req, res) => {
     try {
-        // Query database to find a user with the provided email
+        const {email} = req.body
+
         const user = await User.findOne({ email });
         
-        // Return true if user exists, false otherwise
-        //1.return this in response 
         return res.status(400).json({
             success:!!user,
-
         })
-        // Double negation to convert user to boolean
     } catch (error) {
         console.error('Error checking user:', error);
         return res.status(400).json({
             success:false,
             error:"got into an error"
         })
-         // Return false in case of any error
     }
 }
 

@@ -5,8 +5,7 @@ import bodyParser from 'body-parser';
 import 'dotenv/config'
 import connectToDB from './config/db.js';
 import multer from 'multer'
-import { uploadImage } from './utility/images.js';
-import categoryRoutes from './routes/category'; 
+import categoryRoutes from './routes/categories.js'; 
 
 import productRoutes from './routes/product.js'
 import imageRoutes from './routes/images.js'

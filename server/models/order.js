@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const orderSchema = new Schema({
-    product_id: {
+    product: {
         type: Schema.Types.ObjectId,
         ref: 'Product',
         required: true
@@ -12,7 +12,7 @@ const orderSchema = new Schema({
         type: Number, 
         required: true,
     },
-    borrower_id: { 
+    borrower: { 
         type: Schema.Types.ObjectId, 
         ref: 'User', 
         required: true 

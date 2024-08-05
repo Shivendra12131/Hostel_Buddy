@@ -11,8 +11,7 @@ import {
   Button
 } from '@material-tailwind/react';
 
-const SignUpForm = () => {
-  const [open, setOpen] = useState(true);
+const SignUpForm = ({open, setOpen}) => {
   const [formData, setFormData] = useState({
     batchYear: '',
     hostel: '',
@@ -41,7 +40,7 @@ const SignUpForm = () => {
 {/*         Sign Up */}
 {/*       </Button> */}
       <Dialog open={open} handler={setOpen} >
-        <DialogHeader className="bg-black text-white rounded-t-lg">Sign Up</DialogHeader>
+        <DialogHeader className="bg-black text-white rounded-t-lg">Complete your profile</DialogHeader>
         <DialogBody>
           <div className="mb-4">
             <Select
