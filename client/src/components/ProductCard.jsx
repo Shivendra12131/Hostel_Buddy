@@ -11,12 +11,12 @@ import {
 } from "@material-tailwind/react";
 import profileImg from '../assets/Arvind_2.jpg'
 
-const ProductCard = () => {
+const ProductCard = ({ product }) => {
 	return (
 		<Card className="h-fit max-w-[15rem] shadow-xl">
 			<CardHeader className="h-40" floated={false} shadow={false} >
 				<img
-					src="https://m.media-amazon.com/images/I/71AuTPJ0veL._AC_UF1000,1000_QL80_.jpg"
+					src={product.media}
 					alt="ui/ux review check"
 					className="h-full object-cover mx-auto"
 				/>
@@ -39,20 +39,21 @@ const ProductCard = () => {
 			<CardBody>
 				<div className="mb-1 flex items-center justify-between">
 					<Typography variant="h5" color="blue-gray" className="font-medium">
-					Lay's Sizzlin’ Hot Potato Chips
+						{product.title}
 					</Typography>
 				</div>
 				<Typography className="font-lighter text-sm text-blue-gray-300">
-					Enter a freshly updated and thoughtfully furnished ...
+					{product.description.length > 20 ? product.description.substring(0,20).concat("...") : product.description }
 				</Typography>
 				<div className="mt-4 h-14 flex items-center gap-3">
-					<img src={profileImg} alt="" className="rounded-full h-full" />
+					<img src={product.owner.profileImage} alt="" className="rounded-full h-full" />
 					<div className="h-full flex flex-col">
 					<Typography variant="h6" color="blue-gray" className="font-bold">
 						Arvind
+
 					</Typography>
 					<Typography variant="h6" color="blue-gray" className="font-medium">
-						(Manimala)
+						({product.owner.hostel.name})
 					</Typography>
 					</div>
 				</div>
