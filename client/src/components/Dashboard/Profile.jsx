@@ -50,33 +50,49 @@ export const Profile = () => {
   };
 
   return (
-    <div className="p-4 border rounded shadow-lg">
+    <div className=" p-14 px-24  border rounded shadow-lg">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Personal Profile</h2>
-        <button
-          onClick={handleEditClick}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          disabled={isEditing} // Disable the edit button while editing
-        >
-          Edit
-        </button>
+        <h2 className=" text-3xl font-semibold">Personal Profile</h2>
       </div>
 
-      <div className="grid grid-cols-1 gap-4">
-        <div>
-          <label className="block text-sm font-medium">Name:</label>
+      <div className="flex items-center mb-4 gap-10">
+        <div className="flex-shrink-0">
+          {userInfo.profilePic ? (
+            <img
+              src={userInfo.profilePic}
+              alt="Profile"
+              className="w-48 h-48 rounded-full object-cover"
+            />
+          ) : (
+            <div className="w-48 h-48 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+              No Image
+            </div>
+          )}
+
+          {isEditing && (
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="block text-sm mt-2 w-48"
+            />
+          )}
+        </div>
+
+        <div className="ml-4 flex-1">
+          <label className="block text-sm font-medium"></label>
           <input
             type="text"
             name="name"
             value={userInfo.name}
             onChange={handleInputChange}
             disabled={!isEditing}
-            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm ${
-              isEditing ? "bg-white" : "bg-gray-100"
-            }`}
+            className={`mt-1 block text-5xl bg-white`}
           />
         </div>
+      </div>
 
+      <div className="grid grid-cols-1 gap-4">
         <div>
           <label className="block text-sm font-medium">Email:</label>
           <input
@@ -148,53 +164,33 @@ export const Profile = () => {
             }`}
           />
         </div>
-
-        <div>
-          <label className="block text-sm font-medium">Profile Picture:</label>
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              {userInfo.profilePic ? (
-                <img
-                  src={userInfo.profilePic}
-                  alt="Profile"
-                  className="w-16 h-16 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-12 h-14 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-                  No Image
-                </div>
-              )}
-            </div>
-            {isEditing && (
-              <div className="ml-4">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="block text-sm font-medium"
-                />
-              </div>
-            )}
-          </div>
-        </div>
       </div>
 
-      {isEditing && (
-        <div className="flex justify-end gap-4 mt-4">
+      <div className="flex justify-end gap-4 mt-4">
+        {isEditing ? (
+          <>
+            <button
+              onClick={handleCancelClick}
+              className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSaveClick}
+              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            >
+              Save
+            </button>
+          </>
+        ) : (
           <button
-            onClick={handleCancelClick}
-            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+            onClick={handleEditClick}
+            className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
           >
-            Cancel
+            Edit
           </button>
-          <button
-            onClick={handleSaveClick}
-            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-          >
-            Save
-          </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

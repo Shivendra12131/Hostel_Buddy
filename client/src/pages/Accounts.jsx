@@ -42,7 +42,7 @@ const Accounts = () => {
 
   return (
     <Tabs value={value}>
-      <TabsHeader>
+      <TabsHeader className="mt-3 ml-3">
         {data.map(({ label, value, icon }) => (
           <Tab key={value} value={value}>
             <div className="flex items-center gap-2">
