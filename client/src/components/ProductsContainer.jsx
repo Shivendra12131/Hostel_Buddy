@@ -5,13 +5,11 @@ import ProductCardSkeleton from './skeleton/ProductCardSkeleton'
 import { getDataFromApi } from '../utility/api'
 
 
-const ProductsContainer = ({setSelectedCategories,selectedCategories}) => {
+const ProductsContainer = ({setSelectedCategories,selectedCategories,search}) => {
     const [products, setProducts] = useState(null)
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-
-
 
     const handlePreviousPage = () => {
         if (page > 1) setPage(page - 1);
@@ -23,7 +21,7 @@ const ProductsContainer = ({setSelectedCategories,selectedCategories}) => {
 
     useEffect(() => {
         setLoading(true);
-        getDataFromApi("/products/all", { page ,selectedCategories })
+        getDataFromApi("/products/all", { page ,selectedCategories ,search})
             .then((data) => {
 
                 console.log(data?.products);
@@ -31,7 +29,7 @@ const ProductsContainer = ({setSelectedCategories,selectedCategories}) => {
                 setLoading(false);
                 setTotalPages(data.totalPages);
             })
-    }, [page,selectedCategories]);
+    }, [page,selectedCategories,search]);
 
 
     return (
@@ -51,12 +49,6 @@ const ProductsContainer = ({setSelectedCategories,selectedCategories}) => {
                 </Typography>
                 
             </div>}
-
-            {/* <div className="pagination-controls flex justify-center gap-5">
-                <button onClick={handleNextPage} disabled={page === totalPages} className='border border-4 rounded-lg p-2'>
-                    Show More
-                </button>
-            </div> */}
         </div>
     )
 }

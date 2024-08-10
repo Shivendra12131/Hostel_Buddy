@@ -11,8 +11,8 @@ const Filter = ({setSelectedCategories,selectedCategories}) => {
     useEffect(() => {
         getDataFromApi("/categories/all")
             .then((data) => {
-                console.log("categories" ,data?.data);
-                setCategories(data?.data);
+                console.log("categories" ,data?.categories);
+                setCategories(data?.categories);
             })
     }, []);
 
@@ -20,11 +20,11 @@ const Filter = ({setSelectedCategories,selectedCategories}) => {
     
     const randomWidths = [16, 12, 10];
     const handleCategoryClick = (category) => {
-        const isSelected = selectedCategories.some((selected) => selected._id === category._id);
+        const isSelected = selectedCategories?.some((selected) => selected._id === category._id);
         
         setSelectedCategories((prevSelected) => {
             if (isSelected) {
-                return prevSelected.filter((selected) => selected._id !== category._id);
+                return prevSelected?.filter((selected) => selected._id !== category._id);
             } else {
                 return [...prevSelected, category];
             }
@@ -34,16 +34,16 @@ const Filter = ({setSelectedCategories,selectedCategories}) => {
     const [searchTerm, setSearchTerm] = useState(''); // State for search term
 
     const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value.toLowerCase()); // Ensure case-insensitive search
+        setSearchTerm(event?.target?.value?.toLowerCase()); // Ensure case-insensitive search
     };
 
-    const filteredCategories = categories.filter((category) =>
-        category.title.toLowerCase().includes(searchTerm)
+    const filteredCategories = categories?.filter((category) =>
+        category?.title?.toLowerCase()?.includes(searchTerm)
     );
 
     const handleRemoveSelectedCategory = (category) => {
         setSelectedCategories(prevSelected => {
-            return prevSelected.filter(selected => selected._id != category._id)
+            return prevSelected?.filter(selected => selected._id != category._id)
         })
     }
 
@@ -63,10 +63,10 @@ const Filter = ({setSelectedCategories,selectedCategories}) => {
                     onChange={handleSearchChange}
                     placeholder="Search Categories"
                 />
-                {selectedCategories.length > 0 && (
+                {selectedCategories?.length > 0 && (
                     <div className='mt-4 flex flex-wrap gap-x-2 gap-y-3 w-full'>
 
-                        {selectedCategories.map((selected) => (
+                        {selectedCategories?.map((selected) => (
                             <Chip
                                 key={selected._id} // Add unique key for better performance with large lists
                                 variant="filled"
@@ -90,10 +90,10 @@ const Filter = ({setSelectedCategories,selectedCategories}) => {
                 )}
             </div>
 
-            {selectedCategories.length > 0 && <hr />}
-            {categories.length == 0 && (
+            {selectedCategories?.length > 0 && <hr />}
+            {categories?.length == 0 && (
                 <div className='flex flex-wrap gap-x-2 mt-5 gap-y-3 w-full bg-white text-white  animate-pulse'>
-                    {[...Array(40)].map((val, key) => (<Chip
+                    {[...Array(40)]?.map((val, key) => (<Chip
                         key={key} // Add unique key for better performance with large lists
                         variant='chip filled'
                         value=""
@@ -102,11 +102,11 @@ const Filter = ({setSelectedCategories,selectedCategories}) => {
                 </div>
             )}
             <div className='flex flex-wrap gap-x-2 mt-5 gap-y-3 w-full'>
-                {filteredCategories.map((category) => (
+                {filteredCategories?.map((category) => (
                     <Chip
                         key={category._id} // Add unique key for better performance with large lists
-                        variant={selectedCategories.some((selected) => selected._id === category._id) ? 'chip filled' : 'outlined'}
-                        value={category.title}
+                        variant={selectedCategories?.some((selected) => selected._id === category._id) ? 'chip filled' : 'outlined'}
+                        value={category?.title}
                          color='pink'
                         className='capitalize text-sm font-light px-2 py-1 rounded-md text-white'
                         onClick={() => handleCategoryClick(category)}

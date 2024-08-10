@@ -8,19 +8,15 @@ import { pagination } from "../utility/pagination.js";
 
 export const getProductsMetadata = async (req, res) => {
     try {
-        const { page = 2 , selectedCategories } = req.query;
-        // const skip = (page - 1) * limit;
-        
-
+        const { page = 2 , selectedCategories , search } = req.query;
         console.log("selectedCategories - ",selectedCategories);
         const categoryIds = selectedCategories ? selectedCategories
             .map(cat => cat._id)
-            .filter(id => mongoose.Types.ObjectId.isValid(id)) // Validate ObjectId
-            .map(id => new mongoose.Types.ObjectId(id)) : []; // Convert to ObjectId
+            .filter(id => mongoose.Types.ObjectId.isValid(id)) 
+            .map(id => new mongoose.Types.ObjectId(id)) : []; 
 
-        // Build query based on categoryIds
-        const query = categoryIds.length > 0 ? { category: { $in: categoryIds } } : {};
-        const products = await Product.find(query)
+        let query = categoryIds.length > 0 ? { category: { $in: categoryIds } } : {};
+        let products = await Product.find(query)
             .populate({
                 path: 'owner', // Populate the owner field
                 select: 'name profileImage hostel', // Select the owner's name, profileImage, and hostel
@@ -30,6 +26,16 @@ export const getProductsMetadata = async (req, res) => {
                 }
             })
             .exec();
+
+
+            if (search) {
+                const regex = new RegExp(search, 'i'); // Case-insensitive regex for search
+                products = products.filter(product => 
+                    regex.test(product?.owner?.name) || 
+                    regex.test(product?.owner?.hostel?.name)||
+                    regex.test(product?.title)
+             ); 
+            }   
 
         const totalProducts = await Product.countDocuments();
 
