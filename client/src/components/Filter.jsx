@@ -19,6 +19,7 @@ const Filter = ({setSelectedCategories,selectedCategories}) => {
 
     
     const randomWidths = [16, 12, 10];
+
     const handleCategoryClick = (category) => {
         const isSelected = selectedCategories?.some((selected) => selected._id === category._id);
         

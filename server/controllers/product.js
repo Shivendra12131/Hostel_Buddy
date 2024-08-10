@@ -162,6 +162,43 @@ export const deleteProduct = async (req, res) => {
     }
 }
 
+export const getProductDesc = async (req, res) => {
+    try {
+        const { productId } = req.query
+
+        if(productId === "") {
+            return res.status(400).json({
+                success: false,
+                error: "Missing product id"
+            })
+        }
+
+        const product = await Product.findById(productId)
+            .populate({
+                path: 'owner',
+                populate: {
+                    path: 'hostel',  
+                }
+            })
+            .populate({
+                path: 'borrower',
+                populate: {
+                    path: 'hostel',
+                }
+            })
+            .populate('category');
+        
+
+        return res.status(200).json({
+            success: true,
+            productData: product
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
 export const getMyProduct = async (req, res) => {
     try {
 
