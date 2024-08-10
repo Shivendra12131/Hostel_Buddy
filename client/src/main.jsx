@@ -6,9 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 // import { CookiesProvider } from 'react-cookie'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <CookiesProvider defaultSetOptions={{ path: '/' }}>
-    <Router>
-      <App />
-    </Router>
-  // </CookiesProvider>
+  <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+    <App />
+  </GoogleOAuthProvider>,
 )
