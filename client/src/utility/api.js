@@ -24,6 +24,17 @@ export const getDataFromApi = async (url, params) => {
   }
 };
 
+export const fetchProducts = async (page = 1, limit = 12) => {
+  const params = { page, limit };
+  try {
+    const data = await getDataFromApi('/products', params);
+    return data;
+  } catch (err) {
+    console.error('Error fetching products:', err);
+    throw err;
+  }
+};
+
 export const postDataFromApi = async (url, body) => {
   try {
 

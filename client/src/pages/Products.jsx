@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Filter from '../components/Filter'
 import ProductsContainer from '../components/ProductsContainer'
 import Header from "../assets/Header.png"
@@ -7,6 +7,9 @@ import '../components/styles/bg-style.css'
 import {useNavigate} from 'react-router-dom'
 
 const Products = () => {
+
+	const [selectedCategories, setSelectedCategories] = useState([]);
+
 	const navigate = useNavigate();
 	return (
 		<>
@@ -41,8 +44,8 @@ const Products = () => {
 			</div>
 
 			<div className='w-full flex gap-x-16 px-5 py-8 bg-gray-100'>
-				<Filter />
-				<ProductsContainer />
+				<Filter  selectedCategories={selectedCategories}  setSelectedCategories={setSelectedCategories} />
+				<ProductsContainer selectedCategories={selectedCategories}  setSelectedCategories={setSelectedCategories} />
 			</div>
 		</>
 	)

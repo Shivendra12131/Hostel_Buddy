@@ -12,7 +12,6 @@ import {
 import profileImg from '../assets/Arvind_2.jpg'
 
 const ProductCard = ({ product }) => {
-	console.log(product);
 	return (
 		<Card className="h-fit max-w-[15rem] shadow-xl">
 			<CardHeader className="h-40" floated={false} shadow={false} >
@@ -25,7 +24,7 @@ const ProductCard = ({ product }) => {
 			<CardBody>
 				<div className="mb-1 flex items-center justify-between">
 					<Typography variant="h5" color="blue-gray" className="font-medium">
-						{product?.title}
+						{product.title.length > 17 ? product?.title.slice(0,17)+"..." : product?.title}
 					</Typography>
 				</div>
 				<Typography className="font-lighter text-sm text-blue-gray-300">

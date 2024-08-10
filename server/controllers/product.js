@@ -1,12 +1,26 @@
 import Product from "../models/product.js";
+import mongoose from 'mongoose';
 // import User from './models/User';
 import User from '../models/user.js';
 import Hostel from '../models/hostel.js';
+import { pagination } from "../utility/pagination.js";
 // Define the function to get products metadata
+
 export const getProductsMetadata = async (req, res) => {
     try {
-        // Fetch all products with populated owner and hostel information
-        const products = await Product.find()
+        const { page = 2 , selectedCategories } = req.query;
+        // const skip = (page - 1) * limit;
+        
+
+        console.log("selectedCategories - ",selectedCategories);
+        const categoryIds = selectedCategories ? selectedCategories
+            .map(cat => cat._id)
+            .filter(id => mongoose.Types.ObjectId.isValid(id)) // Validate ObjectId
+            .map(id => new mongoose.Types.ObjectId(id)) : []; // Convert to ObjectId
+
+        // Build query based on categoryIds
+        const query = categoryIds.length > 0 ? { category: { $in: categoryIds } } : {};
+        const products = await Product.find(query)
             .populate({
                 path: 'owner', // Populate the owner field
                 select: 'name profileImage hostel', // Select the owner's name, profileImage, and hostel
@@ -17,16 +31,26 @@ export const getProductsMetadata = async (req, res) => {
             })
             .exec();
 
-        // Return the result as a JSON response
+        const totalProducts = await Product.countDocuments();
+
+        const finalProduct = await pagination(products,page)
+
+        console.log(finalProduct);
+
         return res.status(200).json({
-            success : true, 
-            products
+            success: true,
+            page: finalProduct?.page,
+            totalPages:finalProduct?.totalPage,
+            limit:finalProduct?.pageSize,
+            numberOfProducts:finalProduct?.numberOfProducts,
+            products:finalProduct?.data
         });
     } catch (error) {
         console.error('Error fetching products metadata:', error);
         return res.status(500).json({ message: 'Unable to fetch products metadata', error: error.message });
     }
 };
+
 // owner name owener hostelname profile image prduct image owner id owner iamge woner profile owner prifle description title id
 
 export const addProduct = async (req, res) => {
