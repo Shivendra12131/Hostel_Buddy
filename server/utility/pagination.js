@@ -1,7 +1,7 @@
 export const pagination = async (data , pageNumber) => {
     try {
 
-        const pageSize = 4;
+        const pageSize = 5;
         const pages = Math.ceil( data.length/pageSize);
         const startIndex = 0;
         const num = (pageNumber - 1) * pageSize;

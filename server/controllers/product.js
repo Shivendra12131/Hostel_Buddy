@@ -8,7 +8,7 @@ import { pagination } from "../utility/pagination.js";
 
 export const getProductsMetadata = async (req, res) => {
     try {
-        const { page = 2 , selectedCategories , search } = req.query;
+        const { page = 1 , selectedCategories , search } = req.query;
         console.log("selectedCategories - ",selectedCategories);
         const categoryIds = selectedCategories ? selectedCategories
             .map(cat => cat._id)
@@ -41,7 +41,6 @@ export const getProductsMetadata = async (req, res) => {
 
         const finalProduct = await pagination(products,page)
 
-        console.log(finalProduct);
 
         return res.status(200).json({
             success: true,
