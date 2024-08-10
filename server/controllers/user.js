@@ -21,8 +21,8 @@ export const checkUserExists = async (req, res) => {
 
 export const signup=async(req,res)=>{
     try{ 
-        const userData = req.body
-
+        const {userData} = req.body
+        console.log(userData)
         const user=await User.create(
             userData
         )
@@ -33,24 +33,20 @@ export const signup=async(req,res)=>{
                 expiresIn:"1w", 
             }
         )
-        user.token=token
         const options={
             expires:new Date(Date.now()+3*24*60*60*1000),
             httpOnly:true,
         }
-        res.cookie("token",token,options).status(200).json({
+        return res.cookie("token",token,options).status(200).json({
             success:true,
             token,
-            user,
-            message:`User login success`,
+            user: {
+                name: userData.name,
+                email: userData.email,
+                profileImage: userData.profileImage
+            },
+            message:`User created successfully`,
         })
-        
-        return res.status(200).json({
-            success:true,
-            user,
-            message:"user created succesfully",
-        })
-
     }
     catch(error){
         console.log(error)
@@ -72,15 +68,14 @@ export const login=async(req,res)=>{
                 error:"missing email",
             })
         }
-        const user=await User.findOne({email})
+        const userData=await User.findOne({email})
         const token = jwt.sign(
-            {id: user._id},
+            {id: userData._id},
             process.env.JWT_SECRET,
             {
               expiresIn: "1w",
             }
           )
-          user.token = token
           const options = {
             expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
             httpOnly: true,
@@ -88,7 +83,11 @@ export const login=async(req,res)=>{
           res.cookie("token", token, options).status(200).json({
             success: true,
             token,
-            user,
+            user: {
+                name: userData.name,
+                email: userData.email,
+                profileImage: userData.profileImage
+            },
             message: `User Login Success`,
           }) 
         }
