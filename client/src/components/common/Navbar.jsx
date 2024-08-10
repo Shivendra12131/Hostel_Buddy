@@ -139,7 +139,7 @@ export default function StickyNavbar() {
 							/>
 						</svg>
 
-						<Typography variant="small" className="font-medium" onClick={() => navigate('/accounts')}>
+						<Typography variant="small" className="font-medium" onClick={() => navigate('/accounts', { state: { value: 'profile' } })}>
 							My Profile
 						</Typography>
 					</MenuItem>
@@ -159,7 +159,7 @@ export default function StickyNavbar() {
 							/>
 						</svg>
 
-						<Typography variant="small" className="font-medium">
+						<Typography variant="small" className="font-medium" onClick={() => navigate('/accounts', { state: { value: 'lending' } })}>
 							My Lending
 						</Typography>
 					</MenuItem>
@@ -179,7 +179,7 @@ export default function StickyNavbar() {
 							/>
 						</svg>
 
-						<Typography variant="small" className="font-medium">
+						<Typography variant="small" className="font-medium" onClick={() => navigate('/accounts', { state: { value: 'borrow' } })}>
 							My Borrowing
 						</Typography>
 					</MenuItem>

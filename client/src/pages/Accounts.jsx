@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Profile } from "../components/Dashboard/Profile";
 import { Lending } from "../components/Dashboard/Lending";
 import { Borrow } from "../components/Dashboard/Borrow";
+import { useLocation } from 'react-router-dom';
 import {
   Tabs,
   TabsHeader,
@@ -16,31 +17,31 @@ import {
 } from "@heroicons/react/24/solid";
  
 const Accounts = () => {
+  const location = useLocation();
+  const { value } = location.state || 'profile';
   const data = [
     {
-        label: "Profile",
-        value: "profile",
-        icon: UserCircleIcon,
-        component: <Profile/>,
-      },
-    {
-      label: "Borrow",
-      value: "Borrow",
-      icon: Square3Stack3DIcon,
-      component: <Borrow/>,
+      label: "Profile",
+      value: "profile",
+      icon: UserCircleIcon,
+      component: <Profile />,
     },
     {
-        label: "Lending",
-        value: "Lending",
-        icon: Square3Stack3DIcon,
-        component: <Lending/>,
-      },
-      
-    
-   
+      label: "Borrow",
+      value: "borrow",
+      icon: Square3Stack3DIcon,
+      component: <Borrow />,
+    },
+    {
+      label: "Lending",
+      value: "lending",
+      icon: Square3Stack3DIcon,
+      component: <Lending />,
+    },
   ];
+
   return (
-    <Tabs value="profile">
+    <Tabs value={value}>
       <TabsHeader>
         {data.map(({ label, value, icon }) => (
           <Tab key={value} value={value}>
@@ -52,16 +53,14 @@ const Accounts = () => {
         ))}
       </TabsHeader>
       <TabsBody>
-        {data.map(({ value, component }) => {
-            return (
-                <TabPanel key={value} value={value}>
-                    {component}
-                </TabPanel>
-            );
-        })}
+        {data.map(({ value, component }) => (
+          <TabPanel key={value} value={value}>
+            {component}
+          </TabPanel>
+        ))}
       </TabsBody>
     </Tabs>
   );
-}
+};
 
 export default Accounts;
