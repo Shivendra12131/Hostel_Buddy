@@ -1,53 +1,33 @@
 import Product from "../models/product.js";
-
-
-
-export const getProductsMetaData = async (req, res) => {
+// import User from './models/User';
+import User from '../models/user.js';
+import Hostel from '../models/hostel.js';
+// Define the function to get products metadata
+export const getProductsMetadata = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = 10
-
-        const skip = (page - 1) * limit;
-
+        // Fetch all products with populated owner and hostel information
         const products = await Product.find()
             .populate({
-                path: 'owner',
-                select: 'name',
+                path: 'owner', // Populate the owner field
+                select: 'name profileImage hostel', // Select the owner's name, profileImage, and hostel
                 populate: {
-                    path: 'hostel',
-                    select: 'name'
+                    path: 'hostel', // Populate the hostel field in User model
+                    select: 'name' // Select only the name field from the Hostel model
                 }
             })
-            .populate('borrower', 'name')
-            .skip(skip)
-            .limit(limit)
-            .select('images title description owner borrower');
+            .exec();
 
-        // const totalProducts = await Product.countDocuments();
-        // const totalPages = Math.ceil(totalProducts / limit);
-
-        // const productsMetaData = products.map(product => ({
-        //     ownerName: product.owner_id.name,
-        //     borrowerId: product.borrower_id?._id || null,
-        //     images: product.images,
-        //     title: product.title,
-        //     description: product.description,
-        //     hostelName: product.owner_id.hostel.name
-        // }));
-
-        res.status(200).json({
+        // Return the result as a JSON response
+        return res.status(200).json({
+            success : true, 
             products
-            // page,
-            // totalPages,
-            // totalProducts,
-            // products: productsMetaData
         });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Error fetching products metadata:', error);
+        return res.status(500).json({ message: 'Unable to fetch products metadata', error: error.message });
     }
 };
-
+// owner name owener hostelname profile image prduct image owner id owner iamge woner profile owner prifle description title id
 
 export const addProduct = async (req, res) => {
     try {
@@ -67,7 +47,7 @@ export const addProduct = async (req, res) => {
             productData: product
         })
     } catch (error) {
-        console.log(err)
+        console.log(error)
         res.status(500).json({
             success: false,
             error: "Internal Server Error"
