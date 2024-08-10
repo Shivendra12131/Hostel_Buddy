@@ -6,9 +6,10 @@ import OtpInput from "react-otp-input";
 
 
 const ProductStatus = () => {
-    const [steps, setSteps] = useState(2);
+    const [steps, setSteps] = useState(6);
     const [pickupOTP, setPickOTP] = useState("");
     const [returnOTP, setReturnOTP] = useState("");
+
 
     return (
         <div className='w-full cursor-default px-10 py-8 h-full flex flex-col gap-3'>

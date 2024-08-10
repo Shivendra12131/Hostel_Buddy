@@ -13,10 +13,11 @@ import React, { useEffect, useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
 import { getDataFromApi } from '../utility/api';
+import ProductRequestStatus from './ProductRequestStatus';
 
 
 const ProductDetails = () => {
-    const [requested, setRequested] = useState(true);
+    const [requested, setRequested] = useState(1);
     const { id } = useParams();
 
 
@@ -115,7 +116,7 @@ const ProductDetails = () => {
                         </div>
                     </div>
                     <div className='w-1/2 border overflow-hidden border-[#e9ebed] rounded-xl'>
-                        {requested ? <ProductStatus /> : <ProductRequestForm />}
+                        {requested == 0 ? <ProductRequestForm /> : ((requested == 1) ? <ProductRequestStatus /> : <ProductStatus />)}
                     </div>
                 </div>
                 <div className={`flex mt-20 justify-end gap-5 items-center ${requested && 'hidden'}`}>
