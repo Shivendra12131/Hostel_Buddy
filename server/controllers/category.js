@@ -1,25 +1,25 @@
 import Category from "../models/category.js";
 
-export const getAllCategories=async(req,res)=>{
-try{
-    const categories = await Category.find();
-    return res.status(200).json({
-        success: true,
-        data: categories
-    });
+export const getAllCategories = async (req, res) => {
+    try {
+        const categories = await Category.find();
+        return res.status(200).json({
+            success: true,
+            categories
+        });
 
-} catch (error) {
-    console.error('Error getting categories:', error);
-    return res.status(500).json({
-        success: false,
-        error: 'Internal Server Error'
-    });
-}
+    } catch (error) {
+        console.error('Error getting categories:', error);
+        return res.status(500).json({
+            success: false,
+            error: 'Internal Server Error'
+        });
+    }
 };
 export const addCategory = async (req, res) => {
     try {
         const { title, isReturnable } = req.body;
-
+        console.log(title, isReturnable)
         // Check if the category already exists
         const existingCategory = await Category.findOne({ title });
         if (existingCategory) {
@@ -39,7 +39,7 @@ export const addCategory = async (req, res) => {
 
         return res.status(201).json({
             success: true,
-            data: newCategory,
+            newCategory,
             message: 'Category added successfully'
         });
     } catch (error) {

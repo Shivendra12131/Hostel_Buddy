@@ -105,46 +105,72 @@
 
 
 
-import { Button, Card, Checkbox, Option, Select } from '@material-tailwind/react'
+import { Button, Card, Checkbox, Input, Option, Select, Textarea } from '@material-tailwind/react'
 import { MdAdd } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { getDataFromApi, postDataFromApi } from '../utility/api'
+import Toast from '../components/Toasts/Toast';
 // import { handleImageCompression } from '../utility/routineFunctions'
 
 
 
 const ProductForm = () => {
-	const initialForm = {
+
+
+	const [formData, setFormData] = useState({
 		category: "",
-		deposit: "",
 		description: "",
-		media: "",
+		images: "",
 		title: "",
-	}
-
-
-	const [formData, setFormData] = useState(initialForm);
+	});
 
 
 	const [categories, setCategories] = useState([]);
-	const [subcategories, setSubcategories] = useState([]);
-	const [categoriesData, setCategoriesData] = useState([]);
+	const [otherCategory, setOtherCategory] = useState(false);
 
-	const [image, setImage] = useState("");
+	const [newCategory, setNewCategory] = useState({
+		title: '',
+		isReturnable: false
+	})
+
+
+
+	const [image, setImage] = useState(null);
 	const [imagePreviewUrl, setImagePreviewUrl] = useState("");
 
 
 	const [formSubmitLoading, setFormSubmitLoading] = useState(false);
 
+
+	const [open, setOpen] = useState(false);
+	const [toastType, setToastType] = useState("");
+	const [toastMessage, setToastMessage] = useState({
+		title: "",
+		description: ""
+	})
+	const handleOpen = () => setOpen((cur) => !cur);
+
 	useEffect(() => {
 		getDataFromApi('/categories/all')
 			.then((data) => {
-				
+				setCategories(data.categories)
 			})
 			.catch((err) => {
 				console.log(err);
 			})
 	}, [])
+
+	const setErrorToast = (desc) => {
+		setToastMessage({ title: "Error", description: desc })
+		setToastType("error")
+		handleOpen();
+	}
+
+	const setSuccessToast = () => {
+		setToastMessage({ title: "Added Successfully", description: "" })
+		setToastType("success")
+		handleOpen();
+	}
 
 
 
@@ -161,7 +187,12 @@ const ProductForm = () => {
 			const selectedFile = event.target.files[0];
 			const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
 			if (allowedTypes.includes(selectedFile.type)) {
-
+				setImage(selectedFile);
+				const reader = new FileReader();
+				reader.onloadend = () => {
+					setImagePreviewUrl(reader.result);
+				};
+				reader.readAsDataURL(selectedFile);
 			} else {
 				console.log('Please select a valid image file (JPEG, PNG, or GIF)');
 			}
@@ -174,8 +205,18 @@ const ProductForm = () => {
 			return;
 		}
 
+
 		try {
-			
+			const formData = new FormData();
+			formData.append('image', image);
+
+			postDataFromApi('/images/upload', formData)
+				.then(data => {
+					setFormData(prev => ({
+						...prev,
+						images: data.url
+					}))
+				})
 		} catch (error) {
 			console.error("Error uploading image", error);
 		}
@@ -183,29 +224,75 @@ const ProductForm = () => {
 
 
 	const clearAllField = () => {
-		setFormData(initialForm)
+		setFormData({
+			category: "",
+			description: "",
+			images: "",
+			title: "",
+		})
 		setImagePreviewUrl("")
 	}
 
 
 	const handleSubmit = async () => {
 		try {
-			if (
-				formData.category === "" ||
-				formData.title === ""
-			)
-				return;
+			if (otherCategory) {
+				if (newCategory.title === "") {
+					console.log("Empty category")
+					return;
+				}
+				setFormSubmitLoading(true)
+				postDataFromApi('/categories/add', newCategory)
+					.then(dt => {
+						if (dt.success) {
+							formData.category = dt.newCategory._id;
 
-			setFormSubmitLoading(true);
+							postDataFromApi('/products/add', { productData: formData })
+								.then((response) => {
+									const fd = new FormData();
+									fd.append('image', image);
 
-			postDataFromApi('/products/add', {
-				productData: formData
-			}).then(() => {
+									postDataFromApi('/images/upload', fd)
+										.then(res => {
+											formData.images = res.url
+											postDataFromApi('/products/add', { productData: formData })
+												.then((data) => {
+													console.log(data);
+													setFormSubmitLoading(false);
+													setSuccessToast();
+												})
+												.catch((err) => {
+													setFormSubmitLoading(false);
+													setErrorToast("Some error occurred");
+													console.log(err)
+												})
+										})
+								})
+						}
+					})
+			} else {
+				console.log(formData)
+				setFormSubmitLoading(true)
+				const fd = new FormData();
+				fd.append('image', image);
 
-			});
-
-			console.log(formData)
+				postDataFromApi('/images/upload', fd)
+					.then(res => {
+						formData.images = res.url
+						postDataFromApi('/products/add', { productData: formData })
+							.then((data) => {
+								console.log(data);
+								setFormSubmitLoading(false);
+								setSuccessToast();
+							})
+							.catch((err) => {
+								setFormSubmitLoading(false);
+								console.log(err)
+							})
+					})
+			}
 		} catch (err) {
+			setFormSubmitLoading(false);
 			console.error("Error during image upload or form submission:", err);
 		}
 	};
@@ -219,32 +306,59 @@ const ProductForm = () => {
 
 
 	return (
-		<div className='px-28 py-5 bg-bgGray1'>
+		<div className='px-72 py-5 bg-bgGray1'>
+			<Toast type={toastType} message={toastMessage} open={open} handleOpen={handleOpen} />
 			<Card className='w-full h-auto p-10'>
-				<h1>Add New Product</h1>
+				<h1 className='font-bold'>Add New Product</h1>
 				<div className='w-full'>
-					<Checkbox
-						label="Is it Give away?"
-						name='isGiveAway'
-						onChange={handleFormChange}
-					/>
-					<div className='flex gap-5'>
-						<div>
-							<label className='text-[15px] text-blue-gray-900'>Category of product</label>
-							{/* <Select
-								className='w-72'
-								placeholder='--Select category-'
-							/> */}
+					<div className='gap-5'>
+						<div className='w-fit mb-5'>
+							<Select
+								label="Select category"
+								name="category"
+								onChange={(e) => setFormData({
+									...formData,
+									category: e
+								})}
+								disabled={otherCategory}
+							>
+								{categories.map((cat) => (
+									<Option value={cat._id}>{cat.title}</Option>
+								))}
+							</Select>
 						</div>
 						<div>
-							<label className='text-[15px] text-blue-gray-900'>Subcategory of product</label>
-							{/* <Select
-								className='w-72'
-								placeholder='--Select subcategory-'
-							/> */}
+							<Checkbox
+								label="Other"
+								name='otherCategory'
+								onChange={(e) => setOtherCategory(e.target.checked)}
+							/>
 						</div>
+						<div className='mt-3'>
+							{otherCategory && (
+								<Input
+									label='Other category'
+									value={newCategory.title}
+									onChange={(e) => setNewCategory({
+										...newCategory,
+										title: e.target.value
+									})}
+								/>
+							)}
+						</div>
+						{otherCategory && (<div>
+							<Checkbox
+								label="Is Returnable ?"
+								name='isReturnable'
+								checked={newCategory.isReturnable}
+								onChange={(e) => setNewCategory({
+									...newCategory,
+									isReturnable: e.target.checked
+								})}
+							/>
+						</div>)}
 					</div>
-					<div className='flex mt-7 gap-5'>
+					<div className='mt-7 gap-5'>
 						<div>
 							<label className='text-[15px] text-blue-gray-900 block'>Name of product</label>
 							<input
@@ -255,9 +369,9 @@ const ProductForm = () => {
 								onChange={handleFormChange}
 							/>
 						</div>
-						<div className='flex-1'>
+						<div className='flex-1 mt-5'>
 							<label className='text-[15px] text-blue-gray-900 block'>Product description</label>
-							<input
+							<textarea
 								className='w-full border-[1px] rounded-lg px-5 py-2 border-[#e9ebed]'
 								placeholder='Description of product'
 								name='description'
@@ -267,9 +381,9 @@ const ProductForm = () => {
 						</div>
 					</div>
 				</div>
-				
+
 				<div className='w-full mt-5'>
-					<label className='text-[15px] text-blue-gray-900 block'>You can add up-to 3 images</label>
+					<label className='text-[15px] text-blue-gray-900 block'>Add image</label>
 
 					<div className="flex justify-start gap-5 items-center">
 						<label class={`bg-[#f6f8f9] overflow-hidden text-blue relative rounded-lg flex items-center justify-center border-dashed border-[#a3adbb] tracking-wide text-center uppercase border border-blue w-44 h-44 cursor-pointer hover:bg-blue my-5`} >
@@ -284,6 +398,7 @@ const ProductForm = () => {
 								accept="image/*"
 								name='image.0'
 								className="hidden"
+								onChange={handleImageChange}
 							/>
 							{imagePreviewUrl != "" && (
 								<img
@@ -298,7 +413,7 @@ const ProductForm = () => {
 
 				<div className='flex justify-end gap-5 items-center'>
 					<Button variant='outlined' color='green' className='capitalize w-28 text-sm py-2'>Cancel</Button>
-					<Button onClick={handleSubmit} color='green'  className='capitalize w-28 text-sm py-2'>Save</Button>
+					<Button onClick={handleSubmit} loading={formSubmitLoading} color='green' className='capitalize w-28 text-sm py-2'>Save</Button>
 				</div>
 			</Card>
 		</div>

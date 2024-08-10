@@ -102,7 +102,7 @@ export const uploadImage = async (files) => {
         
         return {
             success: true,
-            urls: imageUrls
+            url: imageUrls[0]
         };
     } catch (error) {
         console.error('Error in uploadImages function:', error.message);

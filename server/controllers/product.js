@@ -31,7 +31,7 @@ export const getProductsMetadata = async (req, res) => {
 
 export const addProduct = async (req, res) => {
     try {
-        const productData = req.body
+        const {productData} = req.body
 
         if (!productData || !productData.title || !productData.category) {
             return res.status(400).json({
@@ -39,8 +39,10 @@ export const addProduct = async (req, res) => {
                 error: "Missing entries"
             });
         }
+        productData.owner = req.user._id;
 
         const product = await Product.create(productData);
+
 
         res.status(200).json({
             success: true,
@@ -76,7 +78,7 @@ export const editProduct = async (req, res) => {
         }
 
         productData.images = response.urls;
-        productData.owner_id = req.user._id;
+        productData.owner = req.user._id;
 
         await Product.findByIdAndUpdate(
             productId,
@@ -97,6 +99,7 @@ export const editProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     try {
         const { productId } = req.body
+        
         if (!productId) {
             return res.status(403).json({
                 success: false,

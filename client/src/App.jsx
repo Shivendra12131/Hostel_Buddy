@@ -9,21 +9,18 @@ import Accounts from './pages/Accounts'
 
 
 function App() {
-	const [count, setCount] = useState(0)
-
 	return (
 		<>
 			<StickyNavbar />
-
-				<div>
-					<Routes>
-						<Route path="/" element={<Products />} />
-						<Route path="/product-form" element={<ProductForm />} />
-						<Route path="/signup-form" element={<SignUpForm />} />
-						<Route path="/accounts" element={<Accounts />} />
-						<Route path='/lend' element={<ProductForm/>}/>
-					</Routes>
-				</div>
+			<div>
+				<Routes>
+					<Route path="/" element={<Products />} />
+					<Route path="/product-form" element={<ProductForm />} />
+					<Route path="/signup-form" element={<SignUpForm />} />
+					<Route path="/accounts" element={<Accounts />} />
+					<Route path='/lend' element={<ProductForm />} />
+				</Routes>
+			</div>
 
 			<FooterWithLogo />
 		</>
