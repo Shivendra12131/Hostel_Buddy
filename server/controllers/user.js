@@ -1,33 +1,28 @@
-import User from '../models/user.js'; // Assuming your User model is defined in this path
+import User from '../models/user.js'; 
 import jwt from 'jsonwebtoken';
 
-// Controller function to check if user exists
-export const checkUserExists = async (email) => {
+export const checkUserExists = async (req, res) => {
     try {
-        // Query database to find a user with the provided email
+        const {email} = req.body
+
         const user = await User.findOne({ email });
         
-        // Return true if user exists, false otherwise
-        //1.return this in response 
         return res.status(400).json({
             success:!!user,
-
         })
-        // Double negation to convert user to boolean
     } catch (error) {
         console.error('Error checking user:', error);
         return res.status(400).json({
             success:false,
             error:"got into an error"
         })
-         // Return false in case of any error
     }
 }
 
 export const signup=async(req,res)=>{
     try{ 
-        const userData = req.body
-
+        const {userData} = req.body
+        console.log(userData)
         const user=await User.create(
             userData
         )
@@ -38,24 +33,20 @@ export const signup=async(req,res)=>{
                 expiresIn:"1w", 
             }
         )
-        user.token=token
         const options={
             expires:new Date(Date.now()+3*24*60*60*1000),
             httpOnly:true,
         }
-        res.cookie("token",token,options).status(200).json({
+        return res.cookie("token",token,options).status(200).json({
             success:true,
             token,
-            user,
-            message:`User login success`,
+            user: {
+                name: userData.name,
+                email: userData.email,
+                profileImage: userData.profileImage
+            },
+            message:`User created successfully`,
         })
-        
-        return res.status(200).json({
-            success:true,
-            user,
-            message:"user created succesfully",
-        })
-
     }
     catch(error){
         console.log(error)
@@ -77,15 +68,14 @@ export const login=async(req,res)=>{
                 error:"missing email",
             })
         }
-        const user=await User.findOne({email})
+        const userData=await User.findOne({email})
         const token = jwt.sign(
-            {id: user._id},
+            {id: userData._id},
             process.env.JWT_SECRET,
             {
               expiresIn: "1w",
             }
           )
-          user.token = token
           const options = {
             expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
             httpOnly: true,
@@ -93,7 +83,11 @@ export const login=async(req,res)=>{
           res.cookie("token", token, options).status(200).json({
             success: true,
             token,
-            user,
+            user: {
+                name: userData.name,
+                email: userData.email,
+                profileImage: userData.profileImage
+            },
             message: `User Login Success`,
           }) 
         }

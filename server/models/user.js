@@ -25,9 +25,6 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    whatsApp: {
-        type: String
-    },
     room: {
         type: String,
         required: true

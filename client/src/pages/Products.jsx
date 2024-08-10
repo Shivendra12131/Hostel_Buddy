@@ -4,8 +4,10 @@ import ProductsContainer from '../components/ProductsContainer'
 import Header from "../assets/Header.png"
 import { Button } from '@material-tailwind/react'
 import '../components/styles/bg-style.css'
+import {useNavigate} from 'react-router-dom'
 
 const Products = () => {
+	const navigate = useNavigate();
 	return (
 		<>
 			<div className='w-full h-96 bg-banner flex items-center'>
@@ -26,7 +28,10 @@ const Products = () => {
 					</div>
 					<div className="flex gap-5">
 
-						<button className='mt-6 w-60 px-10 py-3 bg-pink-400 text-white font-semibold rounded-lg shadow-md hover:bg-purple-400 focus:outline-none'>
+						<button 
+							className='mt-6 w-60 px-10 py-3 bg-pink-400 text-white font-semibold rounded-lg shadow-md hover:bg-purple-400 focus:outline-none'
+							onClick={() => navigate('/lend')}
+						>
 							Lend Your Stuff
 						</button>
 						<button className='mt-6 w-60 px-10 py-3 bg-green-400 text-white font-semibold rounded-lg shadow-md hover:bg-purple-400 focus:outline-none'>

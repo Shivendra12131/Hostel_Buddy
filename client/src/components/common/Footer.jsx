@@ -1,6 +1,6 @@
 import { Typography } from "@material-tailwind/react";
 
-export function FooterWithLogo() {
+export default function FooterWithLogo() {
     const currentYear = new Date().getFullYear();
     return (
         <footer className="w-full bg-white p-8">
