@@ -8,11 +8,11 @@ const productSchema = new Schema({
         ref: 'User', 
         required: true 
     },
-    images: [{
+    images: {
         type: String
-    }],
+    },
     borrower: { 
-        type: Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId,    
         ref: 'User',
         default: null
     },
