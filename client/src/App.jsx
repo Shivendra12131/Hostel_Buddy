@@ -15,7 +15,6 @@ function App() {
 		<>
 			<StickyNavbar />
 
-			<Router>
 				<div>
 					<Routes>
 						<Route path="/" element={<Products />} />
@@ -25,7 +24,6 @@ function App() {
 						<Route path='/lend' element={<ProductForm/>}/>
 					</Routes>
 				</div>
-			</Router>
 
 			<FooterWithLogo />
 		</>

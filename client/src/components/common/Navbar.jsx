@@ -19,8 +19,10 @@ import SignUpForm from "../../pages/signUpForm";
 import { deleteToken, fetchToken } from '../../utility/jwtLocalStorage'
 import { deleteUser, fetchUser } from "../../utility/userLocalStorage";
 import { postDataFromApi } from "../../utility/api";
+import {useNavigate} from 'react-router-dom'
 
 export default function StickyNavbar() {
+	const navigate = useNavigate();
 	const [openNav, setOpenNav] = useState(false);
 	const [user, setUser] = useState(null);
 
@@ -137,7 +139,7 @@ export default function StickyNavbar() {
 							/>
 						</svg>
 
-						<Typography variant="small" className="font-medium">
+						<Typography variant="small" className="font-medium" onClick={() => navigate('/accounts')}>
 							My Profile
 						</Typography>
 					</MenuItem>
@@ -221,7 +223,7 @@ export default function StickyNavbar() {
 							className="inline-block"
 							onClick={signup}
 						>
-							<span>Log In</span>
+							<span>sign up</span>
 						</Button>
 						<Button
 							variant="gradient bg-purple-800"
