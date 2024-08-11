@@ -9,9 +9,13 @@ import {
 	IconButton,
 	Chip,
 } from "@material-tailwind/react";
-import profileImg from '../assets/Arvind_2.jpg'
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
+	const navigate = useNavigate();
+	const handleExplore = () => {
+		navigate(`/product/${product._id}`)
+	}
 	return (
 		<Card className="h-fit max-w-[15rem] shadow-xl">
 			<CardHeader className="h-40" floated={false} shadow={false} >
@@ -44,8 +48,8 @@ const ProductCard = ({ product }) => {
 				</div>
 			</CardBody>
 			<CardFooter className="pt-3">
-				<Button size="lg" fullWidth={true} className="bg-[#350145]">
-					Reserve
+				<Button size="lg" fullWidth={true} className="bg-[#350145]" onClick={handleExplore}>
+					Explore
 				</Button>
 			</CardFooter>
 		</Card>

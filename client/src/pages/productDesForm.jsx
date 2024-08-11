@@ -247,27 +247,25 @@ const ProductForm = () => {
 						if (dt.success) {
 							formData.category = dt.newCategory._id;
 
-							postDataFromApi('/products/add', { productData: formData })
-								.then((response) => {
-									const fd = new FormData();
-									fd.append('image', image);
+							const fd = new FormData();
+							fd.append('image', image);
 
-									postDataFromApi('/images/upload', fd)
-										.then(res => {
-											formData.images = res.url
-											postDataFromApi('/products/add', { productData: formData })
-												.then((data) => {
-													console.log(data);
-													setFormSubmitLoading(false);
-													setSuccessToast();
-												})
-												.catch((err) => {
-													setFormSubmitLoading(false);
-													setErrorToast("Some error occurred");
-													console.log(err)
-												})
+							postDataFromApi('/images/upload', fd)
+								.then(res => {
+									formData.images = res.url
+									postDataFromApi('/products/add', { productData: formData })
+										.then((data) => {
+											console.log(data);
+											setFormSubmitLoading(false);
+											setSuccessToast();
+										})
+										.catch((err) => {
+											setFormSubmitLoading(false);
+											setErrorToast("Some error occurred");
+											console.log(err)
 										})
 								})
+
 						}
 					})
 			} else {

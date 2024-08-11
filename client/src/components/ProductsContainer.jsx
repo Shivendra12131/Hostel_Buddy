@@ -5,7 +5,7 @@ import ProductCardSkeleton from './skeleton/ProductCardSkeleton'
 import { getDataFromApi } from '../utility/api'
 
 
-const ProductsContainer = ({setSelectedCategories,selectedCategories,search}) => {
+const ProductsContainer = ({ setSelectedCategories, selectedCategories, search }) => {
     const [products, setProducts] = useState(null)
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
@@ -21,7 +21,7 @@ const ProductsContainer = ({setSelectedCategories,selectedCategories,search}) =>
 
     useEffect(() => {
         setLoading(true);
-        getDataFromApi("/products/all", { page ,selectedCategories ,search})
+        getDataFromApi("/products/all", { page, selectedCategories, search })
             .then((data) => {
 
                 console.log(data?.products);
@@ -29,7 +29,7 @@ const ProductsContainer = ({setSelectedCategories,selectedCategories,search}) =>
                 setLoading(false);
                 setTotalPages(data.totalPages);
             })
-    }, [page,selectedCategories,search]);
+    }, [page, selectedCategories, search]);
 
 
     return (
@@ -42,12 +42,14 @@ const ProductsContainer = ({setSelectedCategories,selectedCategories,search}) =>
                 {products?.map((product) => (<ProductCard key={product.id} product={product} />))}
                 {loading && ([...Array(8)].map(() => <ProductCardSkeleton />))}
             </div>
-
-            {page!== totalPages && <div className='flex justify-center'>
+            {products?.length == 0 && <Typography as="h3" color="blue-gray" className="font-bold text-center text-lg transition-all duration-200">
+                No products found
+            </Typography>}
+            {(page !== totalPages && products?.length != 0) && <div className='flex justify-center'>
                 <Typography onClick={handleNextPage} as="h3" color="blue-gray" className="font-bold text-lg hover:underline cursor-pointer transition-all duration-200">
                     Show more
                 </Typography>
-                
+
             </div>}
         </div>
     )

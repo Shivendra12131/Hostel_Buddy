@@ -4,11 +4,12 @@ import mongoose from 'mongoose';
 import User from '../models/user.js';
 import Hostel from '../models/hostel.js';
 import { pagination } from "../utility/pagination.js";
+import Order from "../models/order.js";
 // Define the function to get products metadata
 
 export const getProductsMetadata = async (req, res) => {
     try {
-        const { page = 2 , selectedCategories , search } = req.query;
+        const { page = 1 , selectedCategories , search } = req.query;
         console.log("selectedCategories - ",selectedCategories);
         const categoryIds = selectedCategories ? selectedCategories
             .map(cat => cat._id)
@@ -41,7 +42,6 @@ export const getProductsMetadata = async (req, res) => {
 
         const finalProduct = await pagination(products,page)
 
-        console.log(finalProduct);
 
         return res.status(200).json({
             success: true,
@@ -161,6 +161,76 @@ export const deleteProduct = async (req, res) => {
         })
     }
 }
+
+export const getProductDesc = async (req, res) => {
+    try {
+        const { productId } = req.query
+
+        if(productId === "") {
+            return res.status(400).json({
+                success: false,
+                error: "Missing product id"
+            })
+        }
+
+        const product = await Product.findById(productId)
+            .populate({
+                path: 'owner',
+                populate: {
+                    path: 'hostel',  
+                }
+            })
+            .populate({
+                path: 'borrower',
+                populate: {
+                    path: 'hostel',
+                }
+            })
+            .populate('category');
+        
+
+        return res.status(200).json({
+            success: true,
+            productData: product
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
+
+export const getProductRequested = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const { productId } = req.query
+
+        const orders = await Order.find({
+            borrower: userId,
+            product: productId,
+            status: { $in: ['requested', 'accepted'] }
+        }).populate('product').populate('borrower');
+
+        if(orders.length == 0) {
+            return res.status(200).json({
+                success: true,
+                requestStatus: 0
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            requestStatus: 1
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            error: "Internal Server Error"
+        })
+    }
+}
+
 
 export const getMyProduct = async (req, res) => {
     try {

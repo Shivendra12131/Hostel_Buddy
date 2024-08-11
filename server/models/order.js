@@ -12,25 +12,27 @@ const orderSchema = new Schema({
         type: Number, 
         required: true,
     },
-    borrower: { 
+    borrower: {
         type: Schema.Types.ObjectId, 
         ref: 'User', 
         required: true 
     },
     status: { 
         type: String, 
-        enum: ['pending', 'approved', 'rejected', 'returned'], 
-        default: 'pending' 
+        enum: ['requested', 'accepted', 'waiting_pickup', 'pickedup', 'inuse', 'returned', 'closed'], 
+        default: 'requested' 
     },
-    transactions:[{ 
-        type: String, 
-        default: "" 
-    }],
+    transactions:{ 
+        type: Number, 
+        default: 0
+    },
     pickupOTP: { 
         type: String,
+        default: ""
     },
     returnOTP: { 
         type: String,
+        default: ""
     }
 }, { timestamps: true });
 

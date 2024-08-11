@@ -6,6 +6,7 @@ import Products from './pages/Products'
 import ProductForm from './pages/productDesForm'
 import SignUpForm from './pages/signUpForm'
 import Accounts from './pages/Accounts'
+import ProductDetails from './components/ProductDetails';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
 					<Route path="/signup-form" element={<SignUpForm />} />
 					<Route path="/accounts" element={<Accounts />} />
 					<Route path='/lend' element={<ProductForm />} />
+					<Route path='/product/:id' element={<ProductDetails />}/>
 				</Routes>
 			</div>
 
