@@ -11,6 +11,7 @@ import productRoutes from './routes/product.js'
 import imageRoutes from './routes/images.js'
 import userRoutes from './routes/user.js'
 import hostelRoutes from './routes/hostels.js'
+import orderRoutes from './routes/order.js'
 
 
 const app = express();
@@ -41,6 +42,7 @@ app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/images/', imageRoutes)
 app.use('/api/v1/users', userRoutes)
 app.use('/api/v1/hostels', hostelRoutes);
+app.use('/api/v1/orders', orderRoutes);
 
 
 app.listen(PORT, () => {

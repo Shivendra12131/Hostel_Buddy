@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import User from '../models/user.js';
 import Hostel from '../models/hostel.js';
 import { pagination } from "../utility/pagination.js";
+import Order from "../models/order.js";
 // Define the function to get products metadata
 
 export const getProductsMetadata = async (req, res) => {
@@ -194,6 +195,39 @@ export const getProductDesc = async (req, res) => {
         })
     } catch (err) {
         console.log(err)
+    }
+}
+
+
+
+export const getProductRequested = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const { productId } = req.query
+
+        const orders = await Order.find({
+            borrower: userId,
+            product: productId,
+            status: { $in: ['requested', 'accepted'] }
+        }).populate('product').populate('borrower');
+
+        if(orders.length == 0) {
+            return res.status(200).json({
+                success: true,
+                requestStatus: 0
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            requestStatus: 1
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            error: "Internal Server Error"
+        })
     }
 }
 

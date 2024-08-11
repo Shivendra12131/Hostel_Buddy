@@ -58,7 +58,7 @@ const Filter = ({setSelectedCategories,selectedCategories}) => {
                 <h1 className='font-bold text-2xl text-white mb-5'>Filter by categories</h1>
                 <input
                     type='text sm'
-                    className=' bg-white rounded p-1.5' // Add spacing for better layout
+                    className=' bg-white rounded px-2.5 py-1.5 outline-none placeholder:text-md' // Add spacing for better layout
                     label='Search Categories'
                     value={searchTerm}
                     onChange={handleSearchChange}

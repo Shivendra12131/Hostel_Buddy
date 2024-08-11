@@ -14,60 +14,62 @@ import { IoCloseOutline } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
 import { getDataFromApi } from '../utility/api';
 import ProductRequestStatus from './ProductRequestStatus';
+import Toast from './Toasts/Toast';
 
 
 const ProductDetails = () => {
-    const [requested, setRequested] = useState(1);
+    const [requested, setRequested] = useState(0);
     const { id } = useParams();
 
 
     const [productData, setProductData] = useState()
 
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen((cur) => !cur);
+	const [toastType, setToastType] = useState("");
+	const [toastMessage, setToastMessage] = useState({
+		title: "",
+		description: ""
+	})
+    const [checkRequests, setCheckRequests] = useState(1);
+	const handleOpen = () => setOpen((cur) => !cur);
+
+    const setErrorToast = (desc) => {
+		setToastMessage({ title: "Error", description: desc })
+		setToastType("error")
+		handleOpen();
+	}
+
+	const setSuccessToast = () => {
+		setToastMessage({ title: "Added Successfully", description: "" })
+		setToastType("success")
+		handleOpen();
+	}
+
+
+
 
 
     useEffect(() => {
         getDataFromApi('/products/desc', { productId: id })
             .then(data => {
-                console.log(data.productData)
                 setProductData(data.productData);
             })
     }, [])
 
 
+    useEffect(() => {
+        getDataFromApi('/products/getRequests', {productId: id})
+            .then((res) => {
+                if(res?.success) {
+                    setRequested(res.requestStatus)
+                }
+            })
+    }, [checkRequests])
+
+
     return (
         <div className='px-28 py-5 bg-bgGray1'>
-            {/* <Dialog
-                size="xs"
-                open={open}
-                handler={handleOpen}
-                className="bg-transparent shadow-none"
-                animate={{
-                    mount: { scale: 1, y: 0, x: 0 },
-                    unmount: { scale: 0.9, y: -100 },
-                  }}
-            >
-                <Card className="mx-auto w-full px-5 py-4 max-w-[24rem]">
-                    <button
-                        className='float-right absolute right-5 top-5 bg-[#f6f8f9] p-1 rounded-lg'
-                        onClick={handleOpen}
-                    >
-                        <IoCloseOutline size={30} />
-                    </button>
-
-                    <div className='flex justify-end flex-col gap-10 items-center'>
-                        <div className='flex flex-col mt-10 items-center gap-7 justify-center'>
-                            <img src={deleteIcon} alt="" width={120} />
-                            <p>Are you sure want to delete this product ?</p>
-                        </div>
-                        <div className='flex gap-10'>
-                            <Button variant='outlined' color='green'>Delete</Button>
-                            <Button color='green' onClick={handleOpen}>Don't Delete</Button>
-                        </div>
-                    </div>
-                </Card>
-            </Dialog> */}
+			<Toast type={toastType} message={toastMessage} open={open} handleOpen={handleOpen} />
 
 
             <Card className='w-full p-10'>
@@ -91,44 +93,40 @@ const ProductDetails = () => {
                                 <img src={productData?.owner.profileImage} alt="" className='rounded-full w-12' />
                             </div>
                             <div className='flex flex-col justify-center w-auto'>
-                                <h2>{productData?.owner.name}</h2>
+                                <h2 className='font-extrabold'>{productData?.owner.name}</h2>
                             </div>
                             <div className='flex gap-3 items-center ml-auto'>
                                 {/* <img src={callIcon} alt="" />
                                 <img src={msgIcon} alt="" /> */}
                             </div>
                         </div>
-                        <div className='mt-5'>
-                            <h3 className='font-bold text-lg mb-4 just'>Description</h3>
-                            <h5>
-                                <span className='font-bold'>Phone:</span> {productData?.owner.phone}
-                            </h5>
-                            <h5>
-                                <span className='font-bold'>Hostel:</span> {productData?.owner.hostel.name}
-                                ({productData?.owner.hostel.isInsideCampus ? "Inside Campus" : "Outside Campus"})
-                            </h5>
-                            <h5>
-                                <span className='font-bold'>Phone:</span> {productData?.owner.phone}
-                            </h5>
-                            <h5>
-                                <span className='font-bold'>Phone:</span> {productData?.owner.phone}
-                            </h5>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                            <div className=" p-4 text-white rounded-lg bg-[#350145] shadow-lg">
+                                <h4 className="text-md font-semibold">
+                                    <span className="font-bold">Phone No:</span> {productData?.owner?.phone}
+                                </h4>
+                            </div>
+                            <div className="p-4 text-white rounded-lg bg-[#350145] shadow-lg">
+                                <h4 className="text-md font-semibold">
+                                    <span className="font-bold">Room No:</span> {productData?.owner?.room}
+                                </h4>
+                            </div>
+                            <div className="p-4 text-white rounded-lg bg-[#350145] shadow-lg">
+                                <h4 className="text-md font-semibold">
+                                    <span className="font-bold">Hostel:</span> {productData?.owner?.hostel?.name}
+                                </h4>
+                            </div>
+                            <div className="p-4 text-white rounded-lg bg-[#350145] shadow-lg">
+                                <h4 className="text-md font-semibold">
+                                    ({productData?.owner?.hostel?.isInsideCampus ? "Inside Campus" : "Outside Campus"})
+                                </h4>
+                            </div>
+
                         </div>
                     </div>
                     <div className='w-1/2 border overflow-hidden border-[#e9ebed] rounded-xl'>
-                        {requested == 0 ? <ProductRequestForm /> : ((requested == 1) ? <ProductRequestStatus /> : <ProductStatus />)}
+                        {requested == 0 ? <ProductRequestForm setCheckRequests={setCheckRequests} productData={productData} setErrorToast={setErrorToast}/> : ((requested == 1) ? <ProductRequestStatus setCheckRequests={setCheckRequests} id={id} /> : <ProductStatus />)}
                     </div>
-                </div>
-                <div className={`flex mt-20 justify-end gap-5 items-center ${requested && 'hidden'}`}>
-                    {/* <div className='mr-auto'>
-                        <div className='flex items-center'>
-                            <MdCurrencyRupee size={25} />
-                            <h1 className='font-bold text-3xl'>50</h1>
-                        </div>
-                        <p className='text-lg text-center'>Per day</p>
-                    </div> */}
-                    <Button variant='outlined' color='green' className='capitalize w-28 text-sm py-2'>Cancel</Button>
-                    <Button color='green' className='capitalize w-28 text-sm py-2'>Request</Button>
                 </div>
             </Card>
         </div>
